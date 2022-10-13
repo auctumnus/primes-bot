@@ -45,7 +45,14 @@ const cmds: Record<
       await interaction.reply('Invalid list of users!')
       return
     }
-    const userNames = list.split(',').map((s) => s.trim())
+    const userNames =
+      list.split(',').map((s) => s.trim())
+      .reduce((a, v) => {
+        if(!a.includes(v)) {
+          a.push(v)
+        }
+        return a
+      }, [] as string[])
     const notFound = userNames.filter((s) => !db.hasOwnProperty(s))
     const users = userNames.map((s) => db[s]).filter((v) => v)
 
